@@ -1,0 +1,263 @@
+DATACOPY TABLE
+
+During the ACE exploit loader, the datacopy table is used to copy our custom
+data from the save data memory region to other places in memory. This is because
+Melee wants to write things to the save data region such as nametags and match
+data. So, the first thing we need to do after triggering ACE is to get all of
+our custom data out of there and into safe memory regions that Melee won't
+touch.
+
+Each version of Melee needs its own datacopy table because the save file is
+loaded into different memory regions in each version. For example, address
+80460000 in v1.02 is loaded to 8045f320 in v1.01 and 8045e038 in v1.00.
+
+Another reason to use a different datacopy table per Melee version is that you
+probably want to copy different data for each version. For example, a Gecko
+codeset usually needs to be version-specific.
+
+Format:
+80465000 <-- The current location of our data
+817f4000 <-- The location we want to move the data to
+00003700 <-- The length of the data to copy
+--------------------------------------------------------------------------------
+
+!begin
+
+# --------------------
+# v1.02 datacopy table
+# --------------------
+!loc 80460a64
+
+# --Code list (not in the strings area)--
+80465000
+817f4000
+00003700
+
+# --Gecko codehandler--
+80460c64
+801910e0
+00000ba8
+
+# --Internal filename: 20XXTESettings--
+8046180c
+803bac5c
+00000018
+
+# --Displayed filename: TE Settings--
+80461824
+803bac3c
+0000000c
+
+# --Default Tournament Settings--
+80461830
+8045bf10
+0000000c
+
+# --Title Screen Version--
+8046183c
+803ea6c8
+00000028
+
+# --Extended Name Entry--
+80461864
+804d4d90
+000000b8
+
+# --Debug Submenu Function--
+8046191c
+80002800
+0000003c
+
+# --Debug Menu Strings--
+80461958
+803fb000
+00001000
+
+# --Debug Menu-- (enough padding here for 0xc00, but destination can only fit 0x8d8)
+80462958
+803fa728
+000008d8
+
+# --Dialogs--
+80463558
+817c0000
+00000800
+
+# --Shield Color Table--
+80463d58
+817ceffc
+00000068
+
+# --Spawn Point Table--
+80463dc0
+80003300
+00000060
+
+# --Input Display HUD--
+80463e20
+81740000
+000000b0
+
+# --Debug Menu Main Menu--
+80463ed0
+803fa3f4
+000002c4
+
+# --Debug Menu Copy 20XXTE--
+80464194
+803fcc80
+00000144
+
+# --Internal File Name--
+804642d8
+80191c88
+0000001c
+
+# --External File Name--
+804642f4
+80191ca4
+0000002c
+
+# --Replay Menu--
+80464320
+803fc800
+00000240
+
+# --Version Indicator--
+80464560
+80192600
+00000100
+
+# --Taunt Battle--
+80464660
+80191ce0
+00000308
+
+# --Debug Menu String Pointer Tables--
+80464968
+803fc000
+00000140
+
+# --Copy 20XXTE Function--
+80464aa8
+80191fe8
+00000224
+
+# --Replay Functions--
+8045f964
+80192210
+000003f0
+
+# --Input Display Engine--
+8045fd54
+80192700
+00000170
+
+# --End of Table--
+00000000
+
+# --------------------
+# v1.01 datacopy table
+# --------------------
+!loc 80460864
+
+# --Code list (not in the strings area)--
+8045DA00
+817f4000
+000010d8
+
+# --Gecko codehandler--
+8045FF84
+80190a94
+00000ba8
+
+# --Internal filename: 20XXTESettings--
+80460B2C
+803b9f7c
+00000018
+
+# --Displayed filename: TE Settings--
+80460B44
+803b9f3c
+0000000c
+
+# --Default Tournament Settings--
+80460B50
+8045b230
+0000000c
+
+# --Title Screen Version--
+80460B5C
+803e99e8
+00000028
+
+# --Spawn Point Table--
+804630E0
+80003300
+00000060
+
+# --Dialogs--
+80462878
+817c0000
+00000800
+
+# --Version Indicator--
+80463880
+80191fb4
+00000100
+
+# --End of Table--
+00000000
+
+# --------------------
+# v1.00 datacopy table
+# --------------------
+!loc 80460664
+
+# --Code list (not in the strings area)--
+80466C9C
+817f4000
+000010d8
+
+# --Gecko codehandler--
+8045EC9C
+801901e0
+00000ba8
+
+# --Internal filename: 20XXTESettings--
+8045F844
+803b8d9c
+00000018
+
+# --Displayed filename: TE Settings--
+8045F85C
+803b8d7c
+0000000c
+
+# --Default Tournament Settings--
+8045F868
+80459f48
+0000000c
+
+# --Title Screen Version--
+8045F874
+803e8828
+00000028
+
+# --Spawn Point Table--
+80461DF8
+80003300
+00000060
+
+# --Dialogs--
+80461590
+817c0000
+00000800
+
+# --Version Indicator--
+80462598
+80191700
+00000100
+
+# --End of Table--
+00000000
