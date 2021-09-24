@@ -1,0 +1,116 @@
+20XXTE BYTE PATCHES
+
+These patches are not needed for 20XXTE functionality; they are residual bytes
+from the 20XXTE version 2d save file that was originally released. They are
+included in this build so that the output GCI is an exact byte-for-byte copy of
+the latest version of 20XXTE.  If there is ever a new release of 20XXTE, this
+file will be removed from compilation.
+--------------------------------------------------------------------------------
+
+!begin
+
+# Write blocks to the GCI in the order the 20XXTE save file happens to have them
+!blockorder 0 1 7 6 3 4 2 3 5 0
+
+# Patch some stuff in the GCI header
+!patch 0028
+1ec4afcc
+!patch 0034
+0400040a
+!patch 0060
+!string "Game Data 2016/05/10"
+!patch 1e80
+f45654e9
+!patch 1e8c
+2277ae4c
+
+# Patch bytes in block header data
+!patch 2052
+b3 #0
+!patch 4052
+1a #1
+!patch 6052
+24 #7
+!patch 8052
+ae #6
+!patch a052
+21 #3
+!patch c052
+32 #4
+!patch e052
+1a #2
+!patch 10052
+22 #3
+!patch 12052
+5f #5
+!patch 14052
+b3 #0
+
+# Stuff possibly related to unlock flags, but aren't needed
+# But one of these probably unlocks G&W which is needed
+!gci 2060
+00010000
+!gci 2248
+000000af 00000eff
+!gci 24a8
+ff
+!gci 24b8
+00000000 00000100
+!gci 2604
+40004000
+!gci 2674
+40004001
+
+# Some save init data that 20XXTE demolished
+!patch 7fa0
+!fill 0xa0 00
+
+# Some nametag data that 20XXTE accidentally saved at some point
+!patch 6bf3
+01
+!patch 6bfb
+01
+!patch 6c4b
+01
+!patch 6c7b
+01
+# Magic numbers that were used to quickly find Gecko codesets in a hex dump
+!patch 5084
+c0de5101
+!patch 9a2c
+c0de5100
+!patch dc20
+c0de5102
+
+# Nametag init flags that got demolished by 20XXTE over time
+!macro kill_nametag
+00000000
+!add 1a0
+!macroend
+
+!patch 3990
++kill_nametag 5
+!patch 43a4
++kill_nametag 8
+!patch 5f88
++kill_nametag 1
+!patch 95b0
++kill_nametag 3
+!patch b268
++kill_nametag 2
+!patch bde4
++kill_nametag 2
+!patch e200
++kill_nametag 1
+!patch ea34
++kill_nametag 7
+!patch 11268
++kill_nametag 2
+!patch 11de4
++kill_nametag 2
+!patch 15990
++kill_nametag 5
+
+# A duplicate block that didn't have the version number change written to it
+!patch a3af
+33
