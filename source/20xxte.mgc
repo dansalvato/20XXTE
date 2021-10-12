@@ -1,0 +1,25 @@
+20XXTE MGC SCRIPT
+Output: 20XX Tournament Edition version 2d rev4
+Requirements: Melee GCI Compiler 1.0.2 or newer
+
+This MGC script will compile a 20XXTE save file.
+
+The save file has three main components:
+1. The ACE exploit that runs our custom code when entering "Name Entry" in Melee
+2. The custom data we want to load, such as the Gecko codehandler and codeset
+3. The datacopy table, which tells the ACE loader where to copy our custom data
+--------------------------------------------------------------------------------
+
+!begin
+!define version "v.2d 4"
+!src "loader/ace_exploit.mgc"
+!src "loader/datacopy_table.mgc"
+!src "loader/datacopy_data.mgc"
+!src "loader/bytepatches.mgc"
+
+!echo "---------------------------------------------------------"
+!echo "20XXTE [version]"
+!echo "Expected MD5 (unpacked): 80822f2a2a4cd3ce029a14e9663ef7dd"
+!echo "Expected MD5 (packed):   9513f1126f3b90e48063c3249be6e26e"
+!echo "---------------------------------------------------------"
+
