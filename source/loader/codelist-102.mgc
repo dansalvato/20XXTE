@@ -69,72 +69,15 @@ e2000001 00000000
 # ===========================================================
 # Hand-Warmer Mode
 # ===========================================================
-# Skip results screen has a bunch of special cases because of hand-warmer mode, so we put it here
+# Skip results screen has a bunch of special cases because of hand-warmer mode,
+# so we put it here
 
 # Skip Results Screen (enable)
-C21B15E4 00000007
-7C7E1B78 3D808037
-618C8330 7D8903A6
-4E800421 3860FFFF
-3D808038 618CBD6C
-7D8903A6 4E800421
-7FC3F378 38800000
-38A00003 00000000
+# We will disable it farther down if the setting is off
+!src "code/skip_results_screen.mgc"
 
-# Pausing is always on during hand-wamers
-C2167F44 00000003
-A07E0002 28030001
-40820008 38000001
-28000000 00000000
-
-# Disable other hand-warmer modifiers by default
-040812fc 40820024
-0406ab3c 881f221c
-0407dd7c 7c0802a6
-
-# If Tournament mode is OFF and skip results screen is OFF, disable skip results screen
-20469d50 00000000
-20469d60 00000000
-041B15E4 3bc30000
-e2000002 00000000
-
-# If Tournament Mode is ON and 1-minute time match, load hand-warmer string
-C23A662C 0000000A
-2C04004A 7C86002E
-40820044 2C05004B
-4082003C 3CE08046
-60E79D50 80070000
-2C000001 40820028
-3CE08045 60E7BF10
-88070003 2C000001
-40820014 38800000
-90830000 3C80817C
-60840644 00000000
-
-# If tournament mode is ON and one-minute time match is ON:
-20469d50 00000001
-2845bf12 00000001
-
-# Disable edgehogging
-040812fc 60000000
-
-# Players are always intangible
-C206AB3C 00000002
-38000002 901F198C
-881F221C 00000000
-
-# Disable pushing
-0407dd7c 4e800020
-
-# If one-minute time match is OFF:
-2a45bf13 00000001
-
-# disable skip results screen
-041B15E4 3bc30000
-e2000002 00000000
-
-
-
+# Hand-Warmer mode conditionals and code
+!src "code/handwarmers.mgc"
 
 # ===========================================================
 # Run codehandler on Save and Exit

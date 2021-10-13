@@ -1,0 +1,94 @@
+If 8045bf12 == 0001, we have a one-minute time match
+
+Enable skip results screen by default, then disable if:
+(Tournament mode is OFF and skip results screen is OFF) OR
+(Tournament mode is ON and one-minute time match is OFF)
+--------------------------------------------------------------------------------
+
+!begin
+
+
+# Pause is always enabled during hand-warmer mode
+!c2 80167f44
+
+lhz r3,2(r30)
+cmplwi r3,1
+bne END
+li r0,1
+
+END:
+cmplwi r0,0
+
+!c2end
+
+# Disable other hand-warmer modifiers by default
+# (Overwrite C2 hooks with original instructions)
+040812fc 40820024
+0406ab3c 881f221c
+0407dd7c 7c0802a6
+
+# If Tournament mode is OFF:
+20469d50 00000000
+    # If skip results screen is OFF:
+    20469d60 00000000
+        # Disable skip results screen
+        041B15E4 3bc30000
+# Endif (2)
+e2000002 00000000
+
+# If Tournament Mode is ON and 1-minute time match, load hand-warmer string
+!c2 803a662c
+
+cmpwi r4,74
+lwzx r4,r6,0
+bne END
+cmpwi r5,75
+bne END
+
+lis r7,0x8046
+ori r7,r7,0x9d50
+lwz r0,0(r7)
+cmpwi r0,1
+bne END
+
+lis r7,0x8045
+ori r7,r7,0xbf10
+lbz r0,3(r7)
+cmpwi r0,1
+bne END
+
+li r4,0
+stw r4,0(r3)
+lis r4,0x817c
+ori r4,r4,0x0644
+
+END:
+
+!c2end
+
+# If tournament mode is ON:
+20469d50 00000001
+    # If one-minute time match is ON:
+    2845bf12 00000001
+
+        # Disable edgehogging
+        040812fc 60000000
+
+        # Players are always intangible
+        !c2 8006ab3c
+        li r0,2
+        stw r0,0x198c(r31)
+        lbz r0,0x221c(r31)
+        !c2end
+
+        # Disable pushing
+        0407dd7c 4e800020
+
+    # Else:
+    2a45bf13 00000001
+
+        # disable skip results screen
+        041B15E4 3bc30000
+# Endif (2)
+e2000002 00000000
+

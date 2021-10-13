@@ -1,0 +1,23 @@
+# An improved version of the original "Skip Results Screen" code.
+# This one stops rumble on all controllers - otherwise, a rumble effect from
+# during the match could continue on the CSS and never turn off.
+
+!c2 801b15e4
+mr r30,r3
+
+lis r12,0x8037
+ori r12,r12,0x8330
+mtctr r12
+bctrl
+
+li r3,-1
+lis r12,0x8038
+ori r12,r12,0xbd6c
+mtctr r12
+bctrl
+
+mr r3,r30
+li r4,0
+li r5,3
+!c2end
+

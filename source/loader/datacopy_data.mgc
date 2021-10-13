@@ -1,10 +1,10 @@
 # --Code list (not in the strings area)--
 !loc 80465000
-!src "data/codelist-102.mgc"
+!src "codelist-102.mgc"
 !loc 8045e6e0
-!src "data/codelist-101.mgc"
+!src "codelist-101.mgc"
 !loc 80468c64
-!src "data/codelist-100.mgc"
+!src "codelist-100.mgc"
 
 # --Gecko codehandler--
 !loc 80460c64
