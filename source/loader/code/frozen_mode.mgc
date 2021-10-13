@@ -1,0 +1,54 @@
+# In order for this to run, the codehandler needs to be run every time Frozen
+# Mode is toggled by pressing Y on the SSS. This is because the below code
+# doesn't hook into ASM with C2 codes, but instead writes to memory addresses
+# and code instructions whenever the codehandler is run.
+
+# If we're on stage select
+224d6c94 00000000
+    # If frozen mode on
+    28469d44 00000001
+        04c8ee24 3f490fdb
+        04c8ea04 5060ffff
+        04c79964 6060ffff
+        04c73758 9090ffff
+        04cb1a88 80ca3578
+        04cb1aa8 80ca357c
+        04ca3578 0000ff00
+        04ca357c 0000ff00
+        82000000 80ca3571
+        84000000 80ca3578
+        84000000 80ca3579
+        84000000 80ca357c
+        84000000 80ca357d
+    # Else
+    28469d45 00000000
+        04c8ee24 00000000
+        04c8ea04 99b3b3ff
+        04c79964 ccccccff
+        04c73758 ffffffff
+        04cb1a88 80ca3570
+        04cb1aa8 80ca3574
+# Endif (2)
+e2000002 00000000
+
+# Freeze Stages when in Frozen Mode
+# If frozen mode on
+28469d44 00000001
+    041D1548 60000000
+    # DL Wind
+    042115b4 60000000
+
+    041E3348 60000000
+    0421aae4 60000000
+    0420f4c0 60000000
+# Else
+28469d45 00000000
+    041D1548 48003001
+    # DL Wind
+    042115b4 40810104
+
+    041E3348 480000d1
+    0421aae4 48000805
+    0420f4c0 4800006d
+# Endif
+e2000001 00000000
