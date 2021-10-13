@@ -1,0 +1,141 @@
+
+
+# If widescreen not off
+22469d54 00000000
+
+    # Janky, but the below code patches different values into "Widescreen code"
+    # section based on if "Analog" or "Full" was selected.
+
+    # Set pointer offset to this spot
+    4e000000 00000000
+
+    # if analog widescreen
+    20469d54 00000001
+        14000098 3C803F40
+        140000d4 3C603FAB
+        140000f4 3C803FAB
+        14000114 3FE03FAB
+        14000130 3FE03FAB
+        14000150 3F403FAB
+
+    # elif full widescreen
+    20469d55 00000002
+        14000098 3C803F2f
+        140000d4 3C603FBB
+        140000f4 3C803FBB
+        14000114 3FE03FBB
+        14000130 3FE03FBB
+        14000150 3F403FBB
+
+
+    # endif
+    e2000001 00000000
+
+    # Widescreen code
+    C2367E74 00000009
+    2C1F0001 40820038
+    3C804400 807E004C
+    7C032000 40810028
+    3C803F40 9081002C
+    C021002C C001001C
+    EC010032 D001001C
+    C0010028 EC010032
+    D0010028 389F0000
+    60000000 00000000
+    C23677C4 00000003
+    C01C0044 3C603FAB
+    90610004 C3610004
+    EC1B0032 00000000
+    C200E34C 00000003
+    C05B0044 3C803FAB
+    90810090 C0610090
+    EC4300B2 00000000
+    C2367BAC 00000003
+    C0450044 3FE03FAB
+    93E10090 C0610090
+    EC4300B2 00000000
+    C2367E10 00000003
+    3FE03FAB 93E30000
+    C0630000 C05E0044
+    EC4300B2 00000000
+    C22FBA6C 00000003
+    3F403FAB 93410024
+    C0010024 C022E168
+    EC210032 00000000
+    04302848 3B44FF96
+
+    # HUD flash correction
+    C2020938 00000004
+    7C601B78 3C80C356
+    9083000C 3C804455
+    60848000 90830010
+    60000000 00000000
+
+    # Bubble damage correction
+    # This ensures that widescreen doesn't affect the regions in which
+    # characters take bubble damage. Normally you have to be "offscreen" and
+    # in a bubble to take damage, but this overrides that by calculating the
+    # "offscreen" value based on non-widescreen proportions. The result is that
+    # you take the expected 4:3 bubble damage, but the bubble doesn't get drawn
+    # unless you're actually offscreen.
+
+    # 1. Compare character to non-widescreen edges
+    !c2 80030c7c
+    cmpwi r30,0x50
+    blt TRUE
+    cmpwi r3,0x190
+    blt END
+    TRUE:
+    li r4,1
+    END:
+    lhz r0,0x20(sp)
+    !c2end
+
+    # 2. If r4 is 1, set custom damage flag
+    !c2 80086ae4
+    lbz r0,0x221f(r31)
+    cmpwi r4,1
+    beq END
+    li r4,0
+    END:
+    rlwimi r0,r4,5,26,26
+    stb r0,0x221f(r31)
+    cmpwi r3,0
+    !c2end
+
+    # 3. Use special damage flag instead of normal check
+    !c2 8006a884
+    cmpwi r3,0
+    bne END
+    lbz r4,0x221f(r31)
+    rlwinm. r0,r4,0,26,26
+    beq END
+    li r3,1
+    END:
+    cmpwi r3,0
+    !c2end
+
+    # Set PO back to default value
+    4a000000 80000000
+
+# Elif widescreen off
+20469d55 00000000
+    04367E74 389f0000
+    043677C4 c01c0044
+    0400E34C c05b0044
+    04367BAC c0450044
+    04367E10 c05e0044
+    04302848 7c9a2378
+    042FBA6C c022e168
+
+    # HUD flash correction
+    04020938 7c601b78
+
+    # Bubble damage correction
+    04030C7C a0010020
+    04086AE4 2c030000
+    0406A884 2c030000
+
+# Endif
+e2000001 00000000
+

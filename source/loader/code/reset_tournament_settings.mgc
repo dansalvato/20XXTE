@@ -1,0 +1,46 @@
+Reset tournament settings after every match if tournament mode is on
+
+This code is copied from 8015fbfc which copies default tournament settings on boot
+Copy from 803D4A48 to 8045BF10 whenever CSS is loaded and Tournament Mode is on
+
+Bits to copy from 803D4A48:
+0x00 - 0x09
+0x0b - 0x0c
+Set 0x18 to 00
+Set 0x30 to E70000B0
+
+801b14a0: Go to VS mode screen
+8026688c: Load CSS
+--------------------------------------------------------------------------------
+!begin
+
+
+!c2 801b14c8
+
+lis r4,0x8045
+ori r4,r4,0xbf10
+li r3,0x0100
+sth r3,0x2(r4)
+lis r3,0x0400
+ori r3,r3,0x0a00
+stw r3,4(r4)
+li r3,0x0801
+sth r3,8(r4)
+
+li r3,-1
+stb r3,0x460(r4)
+lis r3,0xe700
+# If doubles, disable FoD
+lis r5,0x8048
+lbz r5,0x7c8(r5)
+cmpwi r5,0
+bne 0x8
+ori r3,r3,0x00b0
+ori r3,r3,0x0090
+stw r3,0x478(r4)
+
+END:
+lwz r0,0x1c(sp)
+
+!c2end
+
