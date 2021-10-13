@@ -1,0 +1,53 @@
+# If Frozen Mode is set to "Toggle" in the 20XX Menu, this code allows players
+# to press the Y button on SSS to toggle Frozen Mode on/off.
+
+# If frozen mode setting is set to "Toggle"
+20469da8 00000001
+
+    !c2 80259c48
+
+    #Check inputs (for all players)
+    lwz r3,-0x4a00(r13)
+    rlwinm. r0,r3,0,20,20 #Y
+    beq END
+
+    #Don't allow toggle if the stage highlight animation is in progress
+    lhz r0,0x2(r31)
+    cmpwi r0,1
+    bne END
+
+    #Play menu sound
+    li r3,1
+    lis r12,0x8002
+    ori r12,r12,0x4030
+    mtctr r12
+    bctrl
+
+    #Flip bit that enables/disables frozen features
+    lis r19,0x8046
+    ori r19,r19,0x9d45
+    lbz r20,0(r19)
+    xori r20,r20,1
+    stb r20,0(r19)
+
+    #Make currently-selected stage 30 (none)
+    li r20,0x1e
+    stb r20,-0x49f2(r13)
+
+    #Run codehandler
+    lis r12,0x8019
+    ori r12,r12,0x10e0
+    mtctr r12
+    bctrl
+
+    END:
+    lbz r3,-0x49f2(r13)
+
+    !c2end
+
+# Else if frozen mode setting is not set to "toggle"
+22469da9 00000001
+    04259C48 886db60e
+# Endif
+e2000001 00000000
+

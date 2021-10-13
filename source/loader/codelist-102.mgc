@@ -19,8 +19,8 @@ C225EF6C 00000004
 # ===========================================================
 # Frozen Mode
 # ===========================================================
-# In order for this to run, the codehandler needs to be toggled every time
-# Frozen Mode is toggled by pressing Y on the SSS.
+# In order for this to run, the codehandler needs to be run every time Frozen
+# Mode is toggled by pressing Y on the SSS.
 
 !src "code/frozen_mode.mgc"
 
@@ -50,32 +50,12 @@ C225EF6C 00000004
 # Disable sudden death
 041a5c10 60000000
 
-
-
 # Widescreen Mode
 !src "code/widescreen.mgc"
 
-# Frozen Mode + Run codehandler
-# If toggle frozen is enabled
-20469da8 00000001
-C2259C48 0000000C
-806DB600 54600529
-41820050 A01F0002
-2C000001 40820044
-38600001 3D808002
-618C4030 7D8903A6
-4E800421 3E608046
-62739D45 8A930000
-6A940001 9A930000
-3A80001E 9A8DB60E
-3D808019 618C10E0
-7D8903A6 4E800421
-886DB60E 00000000
-# Else (frozen mode toggle is off)
-22469da9 00000001
-04259C48 886db60e
-# Endif
-e2000001 00000000
+# Frozen Mode toggle feature on SSS
+# (Codehandler is run whenever toggled)
+!src "code/frozen_mode_toggle.mgc"
 
 # v1.00 Mode
 
