@@ -1,0 +1,37 @@
+# Setting enabled?
+20469dac 00000001
+
+    !c2 8016bdf8
+    subi r3,r28,0x14
+    lbzx r4,r30,r3
+    beq ZERO
+
+    addi r4,r4,1
+    stbx r4,r30,r3
+    cmpwi r4,30
+    beq END
+    b NOPAUSE
+
+    ZERO:
+    li r4,0
+    stbx r4,r30,r3
+
+    NOPAUSE:
+    lis r12,0x8016
+    ori r12,r12,0xbe54
+    mtctr r12
+    bctr
+
+    END:
+    !c2end
+
+    # Get button holds instead of button presses
+    # (load 0x0 instead of 0xc inputs)
+    0416bdec 80030000
+
+# Else
+20469dad 00000000
+    0416BDF8 4182005c
+    0416bdec 80030008
+# Endif
+e2000001 00000000

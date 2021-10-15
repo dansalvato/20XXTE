@@ -1,0 +1,65 @@
+# v1.00 Mode on?
+20469d94 00000001
+
+    # Hitlag Behavior
+    040771E0 60000000
+    040772A4 60000000
+    040781D4 60000000
+    04076A48 60000000
+    04076B9C 60000000
+    04077A1C 60000000
+    04077B70 60000000
+    04076D3C 60000000
+    040776FC 60000000
+
+    # Link/Y. Link - Enable Boomerang Hookshot Cancel (1.02) [Achilles]
+    043C807C 00000000
+    043C809C 00000000
+    043D1204 00000000
+    043D1224 00000000
+
+    # Bowser Flame Cancel
+    04135684 38800156
+
+    # Ness PK Thunder
+    042abcb0 4bfc7481
+    042abcb4 60000000
+
+    # Frozen Item Glitch
+    0426B748 4D820020
+    0426B758 4E800020
+
+# v1.00 Mode off?
+20469d95 00000000
+
+    # Hitlag Behavior
+    040771E0 41820010
+    040772A4 41820010
+    040781D4 41820010
+    04076A48 41820010
+    04076B9C 41820010
+    04077A1C 41820010
+    04077B70 41820010
+    04076D3C 41820010
+    040776FC 41820010
+
+    # Link/Y. Link normal behavior
+    043C807C 00200000
+    043C809C 00c00000
+    043D1204 00200000
+    043D1224 00c00000
+
+    # Bowser flame cancel off
+    04135684 38800155
+
+    # Ness PK Thunder off
+    042abcb0 4bfffc5d
+    042abcb4 38600001
+
+    # Frozen Item Glitch off
+    0426B748 41820010
+    0426B758 88640dc8
+
+# Endif
+e2000001 00000000
+
