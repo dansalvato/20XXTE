@@ -1,0 +1,112 @@
+# Setting enabled?
+20469d58 00000001
+
+    !c2 8016E2DC
+    lis r3,0x8000
+    ori r3,r3,0x3300	#portmap table
+    lwz r4,0x54(sp)
+    lbz r4,0xf(r4)		#selected stage ID
+    li r6,0
+
+    LOOP:
+    lwzx r5,r6,r3
+    cmpw r5,r4
+    beq NEXT
+    cmpwi r5,-1
+    beq NEXT
+    addi r6,r6,0xc
+    b LOOP
+
+    NEXT:
+    addi r6,r6,4
+
+    #Check if doubles is on
+    lis r7,0x8048
+    lbz r7,0x07c8(r7)
+    cmpwi r7,0
+    beq 0x8
+    addi r6,r6,4
+    lwzx r5,r6,r3
+    stw r5,-4(r3)
+    beq END
+
+    DOUBLES:
+    #r3: write pointer
+    #r5: current portmap
+    #r7: p1 team
+    #r8: counter
+    li r8,0
+    lis r4,0x803f
+    ori r4,r4,0x0e06
+    lbz r7,0(r4)
+
+    LOOP2:
+    addi r8,r8,1
+    cmpwi r8,4
+    bge END
+    mulli r9,r8,0x24
+    lbzx r6,r9,r4
+    cmpw r6,r7
+    bne LOOP2
+
+    #r8: port to swap with p2
+    addi r3,r3,-4
+    li r6,1
+
+    SWAP:
+    lbzx r4,r6,r3
+    lbzx r5,r8,r3
+    stbx r5,r6,r3
+    stbx r4,r8,r3
+
+    END:
+    #original line
+    lbz r0,7(r31)
+    !c2end
+
+    !c2 8016e48c
+    #r28: player number
+    lis r5,0x8000
+    ori r5,r5,0x32fc
+    lwz r4,-4(r5)
+    lbzx r3,r4,r5
+    addi r4,r4,1
+    stw r4,-4(r5)
+    !c2end
+
+    !c2 8016df54
+    lis r5,0x8000
+    ori r5,r5,0x32fc
+    lwz r4,-4(r5)
+    lbzx r3,r4,r5
+    addi r4,r4,1
+    stw r4,-4(r5)
+    !c2end
+
+    !c2 8016df30
+    lis r4,0x8000
+    ori r4,r4,0x32f8
+    li r5,0
+    stw r5,0(r4)
+
+    addi r28,r26,0
+    !c2end
+
+    !c2 8016e468
+    lis r4,0x8000
+    ori r4,r4,0x32f8
+    li r5,0
+    stw r5,0(r4)
+
+    lis r27,4
+    !c2end
+
+# Else
+20469d59 00000000
+    0416E2DC 881f0007
+    0416E48C 387c0000
+    0416DF54 38790000
+    0416DF30 3b9a0000
+    0416E468 3f600004
+# Endif
+e2000001 00000000
