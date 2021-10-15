@@ -153,9 +153,9 @@ When using it at home, 20XXTE provides various features that can help with train
 [20XXTE FAQ](http://www.20xx.me/faq.html)
 
 # Source Code
-20XXTE can be compiled from source using [Melee GCI Compiler](https://github.com/dansalvato/melee-gci-compiler) version 1.1.0 or newer:
+20XXTE can be compiled from source using [Melee GCI Compiler](https://github.com/dansalvato/melee-gci-compiler) version 2.0.0 or newer:
 
-`python3 melee-gci-compiler.py -o 20XXTE.gci source/20XXTE.mgc`
+`python3 melee_gci_compiler.py -o 20XXTE.gci source/20XXTE.mgc`
 
 Cloning this repo and compiling the source will always result in a byte-for-byte exact copy of the latest version of 20XXTE; no code "in between versions" is ever published to the main branch.
 

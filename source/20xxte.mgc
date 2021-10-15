@@ -1,6 +1,6 @@
 20XXTE MGC SCRIPT
 Output: 20XX Tournament Edition version 2d rev4
-Requirements: Melee GCI Compiler 1.0.2 or newer
+Requirements: Melee GCI Compiler 2.0.0 or newer
 
 This MGC script will compile a 20XXTE save file.
 
