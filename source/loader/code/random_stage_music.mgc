@@ -1,0 +1,41 @@
+801c24f8: Select stage music
+r3: Stage ID
+r4: ??
+r5: Pointer to store music ID
+
+NOTE: This code depends on data copied to 817cf100, which is done so via the
+datacopy table on boot.
+
+!begin
+# Setting enabled?
+20469d64 00000001
+
+    !c2 801c24f8
+    mflr r7
+    # Backup r5
+    mr r6,r5
+    # Get random value from 0 to 0x26
+    li r3,0x26
+    lis r12,0x8038
+    ori r12,r12,0x0580
+    mtctr r12
+    bctrl
+
+    # Restore r5
+    mr r5,r6
+    # Load music table pointer to r4
+    lis r4,0x817c
+    ori r4,r4,0xf100
+    # Get ID from music table, store to r5
+    lbzx r3,r3,r4
+    stw r3,0(r5)
+
+    mtlr r7
+    blr
+    !c2end
+
+# Else
+20469d65 00000000
+    041C24F8 7c0802a6
+# Endif
+e2000001 00000000

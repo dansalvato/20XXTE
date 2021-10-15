@@ -1,3 +1,6 @@
+# NOTE: This relies on data copied to 80003300, which is done so via the
+# datacopy table on boot.
+
 # Setting enabled?
 20469d58 00000001
 
